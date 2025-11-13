@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Github">
+    <meta property="og:title" content="sarahmae3564 on Github">
+    <meta property="og:description" content="@sarahmae3564 32 Followers, 6 Following, 134 Likes – See posts created by sarahmae3564">
+    <meta property="og:url" content="https://www.tiktok.com/@sarahmae3564">
+    <meta property="og:image" content="https://egotripping.dev/clocked.jpeg"> <!-- replace with your image URL -->
+    <meta name="theme-color" content="#121212"> <!-- Optional: gives Discord embed a dark border tone -->
+
+    <!-- Twitter cards (optional but helps on other platforms) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="sarahmae3564 on Github">
+    <meta name="twitter:description" content="@sarahmae3564 32 Followers, 6 Following, 134 Likes – See posts created by sarahmae3564">
+    <meta name="twitter:image" content="https://egotripping.dev/clocked.jpeg">
+
+
+    <title>maintenance</title>
+
+    <style>
+        body {
+            background: black;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main-content" style="">
+        <h1>Under maintenance</h1>
+        <p>It will be back up within the next few days</p>
+    </div>
+
+    <script>
+        const API_ENDPOINT = '/analytics';
+        const consentOverlay = document.getElementById('consent-overlay');
+        const mainContent = document.getElementById('main-content');
+        const consentStatus = document.getElementById('consent-status');
+        const analyticsFeedback = document.getElementById('analytics-feedback');
+
+        function collectAnalyticsData() {
+            const data = {
+                screenWidth: window.screen.width,
+                screenHeight: window.screen.height,
+                operatingSystem: navigator.userAgent.includes('Win') ? 'Windows' :
+                                 navigator.userAgent.includes('Mac') ? 'macOS' :
+                                 navigator.userAgent.includes('Linux') ? 'Linux' :
+                                 navigator.userAgent.includes('Android') ? 'Android' :
+                                 navigator.userAgent.includes('iOS') ? 'iOS' : 'Other/Unknown',
+                language: navigator.language || navigator.userLanguage,
+                timestamp: new Date().toISOString()
+            };
+            return data;
+        }
+
+        async function sendAnalytics(data) {
+            try {
+                const response = await fetch(API_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    console.log('Analytics sent successfully:', result);
+                    analyticsFeedback.textContent = `Report sent successfully! Server message: ${result.message}`;
+                    consentStatus.textContent = 'Data sent';
+                } else {
+                    console.error('Failed to send analytics:', result);
+                    analyticsFeedback.textContent = `Error: Failed to send data. ${result.message}`;
+                    consentStatus.textContent = 'Failed to send data';
+                }
+
+            } catch (error) {
+                console.error('Network or fetch error:', error);
+                analyticsFeedback.textContent = `A network error occurred. Check console for details.`;
+                consentStatus.textContent = 'Connection Error';
+            }
+        }
+
+        const data = collectAnalyticsData();
+        sendAnalytics(data);
+
+
+    </script>
+</body>
+</html>
